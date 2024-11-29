@@ -1,0 +1,133 @@
+describe('AutomationTestStore', () => {
+    it('Homepage, website logo redirect & Search Functionality', () => {
+
+        // ------------HomePage, Search, website logo homepage rediret functionality-------------------
+
+        // by using this cy.visit we visit the url 
+        cy.visit('https://automationteststore.com/')
+        // to navigate to the search option we have to click on search icon on homepage
+        cy.get('.button-in-search').click();
+
+       // input the value in placeholder as Skincare
+       cy.get('[name="keyword"]').type('Shampoo');
+    
+       // After that click on search option
+       cy.get('[id="search_button"]').click({force:true})
+
+    //    To check functionality of website logo (click to redirect to home)
+    cy.get('[alt="Automation Test Store"]').click({force:true})
+    });
+it('Login Functionality with Invalid & Valid Credentials', () => {
+    // ----------Invalid login Details-----------
+    cy.visit('https://automationteststore.com/')
+    cy.contains('Login or register').click()
+    // after visiting login page, filling the input details to login 
+        // input login name
+cy.get('#loginFrm_loginname').type('InvalidUserJITENDRA123')
+
+// input password
+cy.get('#loginFrm_password').type('Jk121683646789')
+
+// click on login button
+cy.get('[title="Login"]').click()
+
+// cy.contains('  Error: Incorrect login or password provided.')
+//         .should('exist')
+//         .and('have.text', '  Error: Incorrect login or password provided.');
+
+    // -------------Valid Login Details--------------------------------
+    cy.visit('https://automationteststore.com/')
+    cy.contains('Login or register').click()
+    // after visiting login page, filling the input details to login 
+        // input login name
+cy.get('#loginFrm_loginname').type('jitendrakumar123')
+
+// input password
+cy.get('#loginFrm_password').type('Jk123456789')
+
+// click on login button
+cy.get('[title="Login"]').click()
+    
+});
+it('Cart Functionality(Add & Remove product, Applying Coupons, Checkout', () => {
+
+// ------------------Add to Cart Functionality---------------------
+
+cy.visit('https://automationteststore.com/')
+    cy.contains('Login or register').click()
+    // after visiting login page, filling the input details to login 
+        // input login name
+cy.get('#loginFrm_loginname').type('jitendrakumar123')
+
+// input password
+cy.get('#loginFrm_password').type('Jk123456789')
+
+// click on login button
+cy.get('[title="Login"]').click()
+// --------------------------------------------------
+    cy.get('.button-in-search').click();
+
+// input the value in placeholder as Skincare
+cy.get('[name="keyword"]').type('Skincare');
+// cy.get('[id="category_id"]').select('   Skincare');
+
+// this will check the checkbox
+// cy.get('[value="1"]').check()
+
+// After that click on search option
+cy.get('button#search_button').click()
+
+//  product sorted from low to high
+// cy.get('[name="sort"]').select('p.price-ASC')
+
+// first product selected after sorting
+cy.visit('https://automationteststore.com/index.php?rt=product/product&keyword=Skincare&category_id=0&description=1&model=1&product_id=96')
+
+// added to the cart
+cy.contains('Add to Cart').click()
+
+// removed from cart
+cy.get('[href="https://automationteststore.com/index.php?rt=checkout/cart&remove=96"]').click()
+
+// search from main menu option Hair care
+cy.get('[href="https://automationteststore.com/index.php?rt=product/category&path=52"]').click()
+
+// click on 3rd product
+cy.contains('Eau Parfumee au The Vert Shampoo').click({force: true})
+
+// input Qty. is 3
+cy.get('#product_quantity').clear().type('3')
+
+// add to cart
+cy.contains('Add to Cart').click()
+
+// applying HAIR20 coupon
+cy.get('[name="coupon"]').type('HAIR20')
+cy.get('[title="Apply Coupon"]').click()
+cy.get('#cart_checkout1').click()
+
+});
+it('Homepage links redirect', () => {
+    // -------------------------Footer Links Redirect present on Homepage-------------
+    cy.visit('https://automationteststore.com/index.php?rt=content/content&content_id=1')
+    cy.visit('https://automationteststore.com/index.php?rt=content/content&content_id=2')
+    cy.visit('https://automationteststore.com/index.php?rt=content/content&content_id=3')
+    cy.visit('https://automationteststore.com/index.php?rt=content/content&content_id=4')
+    cy.visit('https://automationteststore.com/index.php?rt=content/contact')
+    cy.visit('https://automationteststore.com/index.php?rt=content/sitemap')
+    cy.visit('https://automationteststore.com/index.php?rt=account/login')
+    
+});
+it('Contact Us Form Functionality', () => {
+    // ----------------------Contact Us Functionality--------------------------
+    // by using this cy.visit we visit the url 
+    cy.visit('https://automationteststore.com/')
+    cy.visit('https://automationteststore.com/index.php?rt=content/contact')
+    cy.get('[name="first_name"]').type('Jitendra')
+    cy.get('[id="ContactUsFrm_email"]').type('Jitendra@gmail.com')
+    cy.get('[id="ContactUsFrm_enquiry"]').type('My name is Jitendra i have a query regarding issue with a product.')
+    cy.get('[title="Submit"]').click()
+    
+});
+
+});
